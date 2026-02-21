@@ -1,15 +1,17 @@
-// BoxWorldgenNode.cs
+// BoxWorldgenNode.cs - MonoBehaviour with a BoxCollider sibling
 using UnityEngine;
 
+[RequireComponent(typeof(BoxCollider))]
 public class BoxWorldgenNode : HierarchicalWorldgenNode
 {
-    public Bounds Bbox;
+    private BoxCollider boxCollider;
 
-    public BoxWorldgenNode(int level, Bounds bbox, int seed, HierarchicalWorldgenNode parent = null)
-        : base(level, seed, parent)
+    private void Awake()
     {
-        Bbox = bbox;
+        boxCollider = GetComponent<BoxCollider>();
     }
+
+    public Bounds Bbox => new Bounds(transform.position, boxCollider.size);
 
     public override bool Overlaps(Vector3 position, float radius)
     {

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 public abstract class HierarchicalWorldLoader : MonoBehaviour
 {
-    [SerializeField] private LayerMask planningLayerMask;
+    [SerializeField] public static LayerMask planningLayerMask;
     [SerializeField] private int maxNodesLoadedPerFrame = 5;
     [SerializeField] private float unloadRadiusMultiplier = 1.2f;
 
@@ -14,6 +14,12 @@ public abstract class HierarchicalWorldLoader : MonoBehaviour
 
     protected abstract Dictionary<int, List<IWorldgenNodeListener>> BuildDispatchTable();
     protected abstract HierarchicalWorldgenNode BuildRootNode();
+
+    public void ClearAll(){
+        // Unload entire tree
+        if (rootNode != null)
+            UnloadNode(rootNode);
+    }
 
     private void Awake()
     {
